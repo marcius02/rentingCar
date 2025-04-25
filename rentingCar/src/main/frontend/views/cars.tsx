@@ -50,7 +50,7 @@ export default function CarsView() {
         </pre>
         <button
           onClick={handleSaveCar}
-          className="bg-primary text-white p-s rounded mt-m"
+          className="bg-secondary text-white p-s rounded mt-m"
         >
           Save Car
         </button>

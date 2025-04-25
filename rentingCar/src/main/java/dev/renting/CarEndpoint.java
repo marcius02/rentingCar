@@ -26,7 +26,19 @@ public class CarEndpoint {
         System.out.println("carJson:" + carJson);
         Map<String, AttributeValue> itemValues = new HashMap<>();
 
-        carJson.forEach((key, value) -> itemValues.put(key, AttributeValue.builder().s(value.toString()).build()));
+        carJson.forEach((key, value) -> {
+            if (value instanceof String) {
+                itemValues.put(key, AttributeValue.builder().s((String) value).build());
+            } else if (value instanceof Number) {
+                // Handles ALL numbers (Integer, Double, Float, etc)
+                itemValues.put(key, AttributeValue.builder().n(value.toString()).build());
+            } else if (value instanceof Boolean) {
+                itemValues.put(key, AttributeValue.builder().bool((Boolean) value).build());
+            } else {
+                itemValues.put(key, AttributeValue.builder().s(value.toString()).build());
+            }
+        });
+
         System.out.println("itemValues:" + itemValues);
         PutItemRequest putItemRequest = PutItemRequest.builder()
                 .tableName("Cars")
