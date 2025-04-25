@@ -25,6 +25,7 @@ public class CarEndpoint {
     public void saveCar(Map<String, Object> carJson) {
         System.out.println("carJson:" + carJson);
         Map<String, AttributeValue> itemValues = new HashMap<>();
+
         carJson.forEach((key, value) -> itemValues.put(key, AttributeValue.builder().s(value.toString()).build()));
         System.out.println("itemValues:" + itemValues);
         PutItemRequest putItemRequest = PutItemRequest.builder()

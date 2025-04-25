@@ -7,7 +7,11 @@ export interface Car {
   model: string;
   year: number;
   color: string;
+  [key: string]: unknown; // Allows additional properties
 }
+// The error occurs because CarEndpoint.saveCar expects
+// a Record<string, unknown>,
+// but we are passing a Car interface.
 
 export const config: ViewConfig = {
   menu: { order: 1, icon: 'line-awesome/svg/car-side-solid.svg' },
@@ -18,8 +22,10 @@ const sampleCar: Car = {
   id: "123",
   make: "Toyota",
   model: "Camry",
-  year: 2024,
-  color: "Blue"
+  year: 2025,
+  color: "Blue",
+  isRented: false,
+  price: 40000
 };
 
 export default function CarsView() {
