@@ -10,7 +10,7 @@ export const config: ViewConfig = {
 };
 
 const sampleDelegation: Delegation = {
-    id: "store-007",
+    id: "store-008",
     name: "Barcelona Central",
     address: "Carrer de la Marina, 15",
     city: "Barcelona",
