@@ -9,7 +9,7 @@ public class Delegation {
     private String name;
     private String address;
     private String city;
-    private int carAvailableQty;
+    private int availableCarQty;
     private String phone;
     private String email;
 
@@ -26,8 +26,8 @@ public class Delegation {
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
 
-    public int getCarAvailableQty() { return carAvailableQty; }
-    public void setCarAvailableQty(int carAvailableQty) { this.carAvailableQty = carAvailableQty; }
+    public int getAvailableCarQty() { return availableCarQty; }
+    public void setAvailableCarQty(int availableCarQty) { this.availableCarQty = availableCarQty; }
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }

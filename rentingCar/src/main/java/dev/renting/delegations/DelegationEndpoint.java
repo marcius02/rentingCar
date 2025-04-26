@@ -33,7 +33,7 @@ public class DelegationEndpoint {
         delegationMap.put("address", AttributeValue.builder().s(delegation.getAddress()).build());
         delegationMap.put("phone", AttributeValue.builder().s(delegation.getPhone()).build());
         delegationMap.put("email", AttributeValue.builder().s(delegation.getEmail()).build());
-        delegationMap.put("carAvailableQty", AttributeValue.builder().n(String.valueOf(delegation.getCarAvailableQty())).build());
+        delegationMap.put("carAvailableQty", AttributeValue.builder().n(String.valueOf(delegation.getAvailableCarQty())).build());
 
         dynamoDbClient.putItem(PutItemRequest.builder()
                 .tableName("Delegations")

@@ -10,11 +10,11 @@ export const config: ViewConfig = {
 };
 
 const sampleDelegation: Delegation = {
-    id: "store-001",
+    id: "store-003",
     name: "Barcelona Central",
     address: "Carrer de la Marina, 15",
     city: "Barcelona",
-    carAvailableQty: 12,
+    availableCarQty: 12,
     phone: "+34 931 234 567",
     email: "central@renting.com"
 };
