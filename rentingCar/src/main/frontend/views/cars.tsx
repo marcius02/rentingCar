@@ -1,5 +1,6 @@
 import { CarEndpoint } from 'Frontend/generated/endpoints';
 import { ViewConfig } from '@vaadin/hilla-file-router/types.js';
+import { Button } from '@vaadin/react-components/Button';
 
 export interface Car {
   id: string;
@@ -48,12 +49,12 @@ export default function CarsView() {
         <pre className="text-left">
           {JSON.stringify(sampleCar, null, 2)}
         </pre>
-        <button
+        <Button
           onClick={handleSaveCar}
-          className="bg-secondary text-white p-s rounded mt-m"
+
         >
           Save Car
-        </button>
+        </Button>
       </div>
 
       <p>It’s a place where you can grow your own UI 🤗</p>

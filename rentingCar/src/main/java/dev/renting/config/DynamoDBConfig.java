@@ -1,4 +1,4 @@
-package dev.renting;
+package dev.renting.config;
 
 
 import org.springframework.beans.factory.annotation.Value;

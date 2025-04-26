@@ -1,4 +1,4 @@
-package dev.renting;
+package dev.renting.delegations;
 
 
 import com.vaadin.flow.server.auth.AnonymousAllowed;
