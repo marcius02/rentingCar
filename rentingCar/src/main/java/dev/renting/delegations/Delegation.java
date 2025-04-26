@@ -1,5 +1,6 @@
 package dev.renting.delegations;
 
+import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbAttribute;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
 
@@ -26,8 +27,9 @@ public class Delegation {
     public String getCity() { return city; }
     public void setCity(String city) { this.city = city; }
 
+    @DynamoDbAttribute("availableCarQty")
     public int getAvailableCarQty() { return availableCarQty; }
-    public void setAvailableCarQty(int availableCarQty) { this.availableCarQty = availableCarQty; }
+    public void setAvailableCarQty(int availableCarQty){ this.availableCarQty = availableCarQty; }
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }
