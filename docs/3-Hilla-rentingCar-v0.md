@@ -1,4 +1,4 @@
-# Hilla minimum carRenting
+# Hilla  rentingCar: minimum implementation
 
 > Let's save the car JSON straightforwardly to DynamoDB by directly mapping the JSON to a `Map<String, AttributeValue>` <mark>item</mark> and using the AWS SDK Java v2 `PutItem` operation.
 
