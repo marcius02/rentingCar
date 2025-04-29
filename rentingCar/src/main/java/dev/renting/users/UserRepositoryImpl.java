@@ -14,7 +14,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     public UserRepositoryImpl(DynamoDbEnhancedClient enhancedClient) {
-        this.userTable = enhancedClient.table("Users", TableSchema.fromBean(User.class));
+        this.userTable = enhancedClient.table(
+                        "Users",
+                        TableSchema.fromBean(User.class));
     }
 
     @Override

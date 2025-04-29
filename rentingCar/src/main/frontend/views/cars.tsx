@@ -1,18 +1,8 @@
-import { CarEndpoint } from 'Frontend/generated/endpoints';
+import { DelegationEndpoint } from 'Frontend/generated/endpoints';
 import { ViewConfig } from '@vaadin/hilla-file-router/types.js';
 import { Button } from '@vaadin/react-components/Button';
+import Car from 'Frontend/generated/dev/renting/delegations/Car';
 
-export interface Car {
-  id: string;
-  make: string;
-  model: string;
-  year: number;
-  color: string;
-  [key: string]: unknown; // Allows additional properties
-}
-// The error occurs because CarEndpoint.saveCar expects
-// a Record<string, unknown>,
-// but we are passing a Car interface.
 
 export const config: ViewConfig = {
   menu: { order: 1, icon: 'line-awesome/svg/car-side-solid.svg' },
@@ -20,19 +10,20 @@ export const config: ViewConfig = {
 };
 
 const sampleCar: Car = {
-  id: "123",
+  delegationId: "DELEG#001",
+  operation: "car#2025#001",
   make: "Toyota",
   model: "Camry",
   year: 2025,
   color: "Blue",
-  isRented: false,
+  rented: false,
   price: 40000
 };
 
 export default function CarsView() {
   const handleSaveCar = async () => {
     try {
-      await CarEndpoint.saveCar(sampleCar);
+        await DelegationEndpoint.saveCar(sampleCar);
       alert('Car saved successfully!');
     } catch (error) {
       console.error('Error saving car:', error);
