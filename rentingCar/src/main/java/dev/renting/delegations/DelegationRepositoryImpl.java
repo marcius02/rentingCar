@@ -24,7 +24,10 @@ public class DelegationRepositoryImpl implements DelegationRepository {
 
     @Override
     public <T> void save(T item) {
-        DynamoDbTable<T> table = enhancedClient.table(tableName, TableSchema.fromBean((Class<T>) item.getClass()));
+        DynamoDbTable<T> table =
+                enhancedClient.table(
+                        tableName,
+                        TableSchema.fromBean((Class<T>) item.getClass()));
         table.putItem(item);
     }
 

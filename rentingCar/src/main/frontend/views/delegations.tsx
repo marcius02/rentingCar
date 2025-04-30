@@ -12,7 +12,7 @@ export const config: ViewConfig = {
 const sampleDelegation: Delegation = {
     delegationId: "DELEG#001",
     operation: "profile",
-    name: "Barcelona Central",
+    name: "Barcelona Central 2",
     address: "Carrer de la Marina, 15",
     city: "Barcelona",
     availableCarQty: 12,

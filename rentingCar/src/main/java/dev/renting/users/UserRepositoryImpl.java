@@ -10,17 +10,21 @@ import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
-    private final DynamoDbTable<User> userTable;
+    private final DynamoDbEnhancedClient enhancedClient;
+    private final String tableName = "Users";
 
     @Autowired
     public UserRepositoryImpl(DynamoDbEnhancedClient enhancedClient) {
-        this.userTable = enhancedClient.table(
-                        "Users",
-                        TableSchema.fromBean(User.class));
+        this.enhancedClient = enhancedClient;
     }
 
+
     @Override
-    public void saveUser(User user) {
-        userTable.putItem(user);
+    public <T> void save(T item) {
+        DynamoDbTable<T> table =
+                enhancedClient.table(
+                        tableName,
+                        TableSchema.fromBean((Class<T>) item.getClass()));
+        table.putItem(item);
     }
 }

@@ -11,7 +11,7 @@ export const config: ViewConfig = {
 
 const sampleCar: Car = {
   delegationId: "DELEG#001",
-  operation: "car#2025#001",
+  operation: "car#2025#002",
   make: "Toyota",
   model: "Camry",
   year: 2025,

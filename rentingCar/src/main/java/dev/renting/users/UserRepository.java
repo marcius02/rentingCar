@@ -2,5 +2,5 @@
 package dev.renting.users;
 
 public interface UserRepository {
-    void saveUser(User user);
+    <T> void save(T item);
 }

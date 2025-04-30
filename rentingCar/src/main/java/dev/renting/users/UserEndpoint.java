@@ -16,8 +16,15 @@ public class UserEndpoint {
         this.userRepository = userRepository;
     }
 
+    // Save User
     public void saveUser(User user) {
         System.out.println("UserEndpoint.saveUser: " + user);
-        userRepository.saveUser(user);
+        userRepository.save(user);
     }
+
+    // Save Booking
+    public void saveBooking(Booking booking) {
+        userRepository.save(booking);
+    }
+
 }
