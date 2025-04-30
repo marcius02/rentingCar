@@ -9,4 +9,7 @@ public interface DelegationRepository {
     <T> T get(String partitionKey, String sortKey, Class<T> clazz);
 
     <T> List<T> listByPartitionKey(String partitionKey, Class<T> clazz);
+
+    List<Car> listAllCars();
+
 }

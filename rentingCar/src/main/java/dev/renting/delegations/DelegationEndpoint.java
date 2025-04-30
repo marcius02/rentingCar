@@ -4,6 +4,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.hilla.Endpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Endpoint
@@ -45,5 +46,10 @@ public class DelegationEndpoint {
     // List Cars by id (partition key)
     public List<Car> listCarsById(String id) {
         return delegationRepository.listByPartitionKey(id, Car.class);
+    }
+
+    // List all cars for all delegations
+    public List<Car> getAllCars() {
+        return delegationRepository.listAllCars();
     }
 }
