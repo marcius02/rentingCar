@@ -56,57 +56,65 @@ export default function ListCars() {
         padding: '2rem'
       }}
     >
-      {cars.map((car) => (
-        <div
-          key={`${car.delegationId}-${car.operation}`}
-          style={{
-            border: '1px solid #ddd',
-            borderRadius: '12px',
-            width: '320px',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '1.5rem',
-            background: '#fff'
-          }}
-        >
-          <img
-            src="https://placehold.co/300x180?text=Car+Photo"
-            alt={`${car.make} ${car.model}`}
-            style={{
-              width: '100%',
-              height: '180px',
-              objectFit: 'cover',
-              borderRadius: '8px',
-              marginBottom: '1rem'
-            }}
-          />
-          <h3>
-            {car.make} {car.model}
-          </h3>
-          <div style={{ marginBottom: '0.5rem', color: '#555' }}>
-            Year: <strong>{car.year}</strong>
-          </div>
-          <div style={{ marginBottom: '0.5rem', color: '#555' }}>
-            Color: <strong>{car.color}</strong>
-          </div>
-          <div style={{ marginBottom: '0.5rem', color: '#555' }}>
-            Price: <strong>{car.price} €</strong>
-          </div>
-          <div style={{ marginBottom: '1rem', color: car.rented ? '#d33' : '#090' }}>
-            {car.rented ? 'Rented' : 'Available'}
-          </div>
-          <Button
-            theme="primary"
-            disabled={car.rented}
-            onClick={() => handleBook(car)}
-            style={{ width: '100%' }}
-          >
-            BOOK
-          </Button>
-        </div>
-      ))}
+     {cars
+       .filter(car => typeof car.make === 'string' && typeof car.model === 'string')
+       .map(car => (
+         <div
+           key={`${car.delegationId}-${car.operation}`}
+           style={{
+             border: '1px solid #ddd',
+             borderRadius: '12px',
+             width: '320px',
+             boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+             display: 'flex',
+             flexDirection: 'column',
+             alignItems: 'center',
+             padding: '1.5rem',
+             background: '#fff'
+           }}
+         >
+           <img
+             src={`https://cdn.imagin.studio/getimage?customer=img&make=${encodeURIComponent(car.make)}&modelFamily=${encodeURIComponent(car.model.split(' ')[0])}&zoomType=fullscreen`}
+             alt={`${car.make} ${car.model}`}
+             style={{
+               width: '100%',
+               height: '180px',
+               objectFit: 'cover',
+               borderRadius: '8px',
+               marginBottom: '1rem'
+             }}
+             onError={(e) => {
+               (e.target as HTMLImageElement).src = 'https://placehold.co/300x180?text=Car+Not+Found';
+             }}
+           />
+           <h3>
+             {car.make} {car.model}
+           </h3>
+           <div style={{ marginBottom: '0.5rem', color: '#555' }}>
+             Year: <strong>{car.year}</strong>
+           </div>
+           <div style={{ marginBottom: '0.5rem', color: '#555' }}>
+             Color: <strong>{car.color}</strong>
+           </div>
+           <div style={{ marginBottom: '0.5rem', color: '#555' }}>
+             Price: <strong>{car.price} €</strong>
+           </div>
+           <div style={{ marginBottom: '1rem', color: car.rented ? '#d33' : '#090' }}>
+             {car.rented ? 'Rented' : 'Available'}
+           </div>
+           <Button
+             theme="primary"
+             disabled={car.rented}
+             onClick={() => handleBook(car)}
+             style={{ width: '100%' }}
+           >
+             BOOK
+           </Button>
+         </div>
+       ))
+     }
+
+  }
     </div>
   );
 }
