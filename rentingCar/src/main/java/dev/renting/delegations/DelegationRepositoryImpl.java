@@ -2,16 +2,15 @@ package dev.renting.delegations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
-import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
-import software.amazon.awssdk.enhanced.dynamodb.Key;
-import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
+import software.amazon.awssdk.enhanced.dynamodb.*;
 import software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional;
 import software.amazon.awssdk.enhanced.dynamodb.model.ScanEnhancedRequest;
+import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 @Repository
 public class DelegationRepositoryImpl implements DelegationRepository {
 
@@ -51,12 +50,63 @@ public class DelegationRepositoryImpl implements DelegationRepository {
         return items;
     }
 
-    @Override
+   /* @Override
     public List<Car> listAllCars() {
         DynamoDbTable<Car> table = enhancedClient.table(tableName, TableSchema.fromBean(Car.class));
         List<Car> cars = new ArrayList<>();
         // You can add a filterExpression if you want only items of type Car
         table.scan(ScanEnhancedRequest.builder().build()).items().forEach(cars::add);
         return cars;
+    }*/
+
+
+    @Override
+    public List<Car> listAllCars() {
+        // Create a DynamoDB table object for the Car class, mapping to the "Delegations" table
+        DynamoDbTable<Car> table = enhancedClient.table(tableName, TableSchema.fromBean(Car.class));
+        // Initialize an empty ArrayList to store the retrieved Car objects
+        List<Car> cars = new ArrayList<>();
+        // Create a HashMap to store expression values for the filter expression
+        Map<String, AttributeValue> expressionValues = new HashMap<>();
+        // Add a key-value pair to the map, where ":val" is the placeholder for the string "car"
+        expressionValues.put(":val", AttributeValue.builder().s("car").build());
+        // Build a filter expression to match items where the "operation" sort key begins with "car"
+        Expression filterExpression = Expression.builder()
+                .expression("begins_with(operation, :val)") // Define the expression using the begins_with function
+                .expressionValues(expressionValues) // Associate the expression values map
+                .build(); // Construct the Expression object
+        // Build a ScanEnhancedRequest with the filter expression to limit results to Car items
+        ScanEnhancedRequest scanRequest = ScanEnhancedRequest.builder()
+                .filterExpression(filterExpression) // Apply the filter expression to the scan
+                .build(); // Construct the ScanEnhancedRequest object
+        // Execute the scan operation and iterate over the results, adding each Car item to the cars list
+        table.scan(scanRequest).items().forEach(cars::add);
+        // Return the list of Car objects
+        return cars;
+    }
+
+    @Override
+    public List<Delegation> listAllDelegations() {
+        DynamoDbTable<Delegation> table = enhancedClient.table(tableName, TableSchema.fromBean(Delegation.class));
+        List<Delegation> delegations = new ArrayList<>();
+        Map<String, AttributeValue> expressionValues = new HashMap<>();
+        expressionValues.put(":val", AttributeValue.builder().s("profile").build());
+        Expression filterExpression = Expression.builder()
+                .expression("operation = :val")
+                .expressionValues(expressionValues)
+                .build();
+        ScanEnhancedRequest scanRequest = ScanEnhancedRequest.builder()
+                .filterExpression(filterExpression)
+                .build();
+        table.scan(scanRequest).items().forEach(delegations::add);
+        return delegations;
+    }
+
+    @Override
+    public <T> List<T> listAllItems(Class<T> clazz) {
+        DynamoDbTable<T> table = enhancedClient.table(tableName, TableSchema.fromBean(clazz));
+        List<T> items = new ArrayList<>();
+        table.scan(ScanEnhancedRequest.builder().build()).items().forEach(items::add);
+        return items;
     }
 }

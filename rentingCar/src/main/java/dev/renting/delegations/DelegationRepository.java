@@ -12,4 +12,7 @@ public interface DelegationRepository {
 
     List<Car> listAllCars();
 
+    List<Delegation> listAllDelegations();
+
+    <T> List<T> listAllItems(Class<T> clazz);
 }
