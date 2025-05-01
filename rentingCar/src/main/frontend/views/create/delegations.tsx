@@ -5,8 +5,12 @@ import Delegation from 'Frontend/generated/dev/renting/delegations/Delegation';
 
 
 export const config: ViewConfig = {
-  menu: { order: 4, icon: 'line-awesome/svg/simplybuilt.svg' },
-  title: 'Delegations',
+  menu: {
+    title: '\u2003Create Delegation',
+    order: 1, // order within the Create submenu
+    //icon: 'line-awesome/svg/simplybuilt.svg',
+  },
+
 };
 
 const sampleDelegation: Delegation = {

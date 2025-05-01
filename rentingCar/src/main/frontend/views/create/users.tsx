@@ -3,9 +3,14 @@ import { UserEndpoint } from 'Frontend/generated/endpoints';
 import { Button } from '@vaadin/react-components/Button';
 import User from 'Frontend/generated/dev/renting/users/User';
 
+
 export const config: ViewConfig = {
-    menu: { order: 3, icon: 'line-awesome/svg/users-cog-solid.svg' },
-    title: 'Users'
+  menu: {
+    title: '\u2003Create User',
+    order: 3, // order within the Create submenu
+    //icon: 'line-awesome/svg/users-cog-solid.svg',
+  },
+
 };
 
 const sampleUser: User = {

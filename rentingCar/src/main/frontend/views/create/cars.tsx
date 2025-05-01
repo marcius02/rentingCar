@@ -5,8 +5,12 @@ import Car from 'Frontend/generated/dev/renting/delegations/Car';
 
 
 export const config: ViewConfig = {
-  menu: { order: 1, icon: 'line-awesome/svg/car-side-solid.svg' },
-  title: 'Cars'
+  menu: {
+    title: '\u2003Create Car', // two non-breaking spaces for indentation
+    order: 2,
+    //icon: 'line-awesome/svg/car-side-solid.svg',
+  },
+
 };
 
 const sampleCar: Car = {
