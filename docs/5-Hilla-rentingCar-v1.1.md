@@ -2,13 +2,14 @@
 
 ## Intro & Links
 
-- [rentingCar at 286d930](https://github.com/AlbertProfe/rentingCar/tree/286d930bbb8e92a3f6c4565a3cd4a913c818dc04)
+Commits:
 
+- [rentingCar at 286d930](https://github.com/AlbertProfe/rentingCar/tree/286d930bbb8e92a3f6c4565a3cd4a913c818dc04)
 - [rentingCar at 0edf8b5 preliminar version](https://github.com/AlbertProfe/rentingCar/tree/0edf8b549b9891be14be66d56ba28485fdd84223)
 
 > The Hilla `rentingCar`<mark> application (v1.0)</mark> full-stack framework combining a React frontend and a Spring Boot backend uses <mark>AWS DynamoDB</mark> for data storage. 
 
-This v1.1 focuses on the <mark>"List Cars" </mark>feature, specifically the `listAllCars()` method, which retrieves all available cars from the database for display in the frontend.
+This v1.1 focuses on the <mark>"List Cars"</mark> feature, specifically the `listAllCars()` method, which retrieves **all available cars from the database** for display in the frontend.
 
 **Links**:
 
@@ -24,9 +25,9 @@ Users can book available cars directly from the interface. The feature relies on
 
 Key aspects:
 
-- **Data Source**: AWS DynamoDB table "Delegations" storing `Car` and `Delegation` beans.
-- **Filtering**: Retrieves only `Car` items where the sort key (`operation`) starts with "car" (e.g., "car#2024#001").
-- **Frontend Display**: Cards with car images, details, and a "BOOK" button.
+- **Data Source**: AWS DynamoDB table "`Delegations`" storing `Car` and `Delegation` beans.
+- **Filtering**: Retrieves only `Car` items where the sort key (`operation`) starts with "car" (e.g., "`car#2024#001`").
+- **Frontend Display**: Cards with car images, details, and a "`BOOK`" button.
 - **Interactivity**: Users can book cars, with a simple alert confirming the action (extendable for full booking logic).
 
 ## Backend Endpoint & Repo
@@ -83,6 +84,24 @@ public List<Car> listAllCars() {
     return cars;
 }
 ```
+
+****DynamoDB Query and Scan operations using the AWS Java SDK v2****
+
+| Feature             | Query                                            | Scan                                                       |
+| ------------------- | ------------------------------------------------ | ---------------------------------------------------------- |
+| Purpose             | Retrieves items by partition key (direct lookup) | Retrieves all items in the table (full table scan)         |
+| Performance         | Fast, efficient (accesses only relevant items)   | Slow, especially on large tables (reads every item)        |
+| Cost                | Lower (reads only matching items)                | Higher (reads the entire table, even with filters)         |
+| Required Parameters | Partition key (and optional sort key conditions) | None (filters are optional, applied after reading)         |
+| Use Case            | When you know the partition key                  | When you need all items or don’t know the key              |
+| Filtering           | KeyConditionExpression (before read), filters    | FilterExpression (after read, doesn’t save cost)           |
+| Best Practice       | Prefer Query for most access patterns            | Avoid Scan unless necessary (e.g., analytics, full export) |
+
+Use the <mark>Query</mark> operation when you know the partition key, as it provides fast and cost-effective access by retrieving only the relevant items directly from the table or index. Query operations are highly efficient and scale well, making them ideal for most access patterns in DynamoDB. 
+
+In contrast, use the <mark>Scan</mark> operation only when you need to retrieve all items or when the partition key is unknown. Scan reads every item in the table, which can lead to high latency and increased costs, especially as the table grows. Scans can also consume your provisioned throughput quickly and may result in slower performance due to the need to examine every item, even those filtered out after reading. 
+
+> For best performance and lower costs, design your data model to use Query whenever possible and reserve Scan for rare analytics or full data export scenarios
 
 ### Backend: DelegationEndpoint.java (`getAllCars()`)
 
