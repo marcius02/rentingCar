@@ -52,4 +52,11 @@ public class DelegationEndpoint {
     public List<Car> getAllCars() {
         return delegationRepository.listAllCars();
     }
+
+    // List all delegations with operation = "profile"
+    public List<Delegation> getAllProfileDelegations() {
+        // Adjust the repository call as needed for your DB/ORM
+        return delegationRepository.listAllDelegations();
+    }
+
 }
