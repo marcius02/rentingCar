@@ -42,6 +42,18 @@ export default function BookingCar() {
     loadDelegations();
   }, []);
 
+
+
+  const calculateTotalPayment = (startDate, endDate, price) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const qtyDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+    const totalBeforeTax = qtyDays * price;
+    const tax = totalBeforeTax * 0.23;
+    return +(totalBeforeTax + tax).toFixed(2);
+  };
+
+
   const handleSubmit = async () => {
     if (!formData.startDate || !formData.endDate) {
       alert('Please select start and end dates');
@@ -57,6 +69,7 @@ export default function BookingCar() {
     }
 
     try {
+        const totalToPayment = calculateTotalPayment(formData.startDate, formData.endDate, car.price);
       await UserEndpoint.saveBooking({
         userId: "USER#001",
         operation: 'booking#2025#005',
@@ -65,9 +78,8 @@ export default function BookingCar() {
         endDate: formData.endDate,
         pickUpDelegation: formData.pickupDelegationId,
         deliverDelegation: formData.deliverDelegationId,
-        status: 'PENDING',
-        totalToPayment: 0,
-        statusPayment: "PENDING",
+        totalToPayment: totalToPayment,
+        statusPayment: "PAID",
         statusBooking: "CREATED"
       });
       navigate('/bookings');
