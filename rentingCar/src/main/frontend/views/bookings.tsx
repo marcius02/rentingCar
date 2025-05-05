@@ -31,7 +31,7 @@ export default function Bookings() {
       <ul>
         {bookings.map((b, i) => (
           <li key={i}>
-            {b.car?.make} {b.car?.model} ({b.startDate} → {b.endDate}) - {b.status}
+            {b.car?.make} {b.car?.model} ({b.startDate} → {b.endDate}) - {b.statusBooking} - {b.totalToPayment}€
           </li>
         ))}
       </ul>
