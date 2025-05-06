@@ -14,7 +14,7 @@ export default function Bookings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    UserEndpoint.getBookingsForUser('USER#001')
+    UserEndpoint.getBookingsByUser('USER#001')
       .then((result) => setBookings(result ?? []))
       .catch((err) => {
         console.error('Failed to fetch bookings:', err);

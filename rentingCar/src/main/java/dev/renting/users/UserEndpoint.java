@@ -29,7 +29,7 @@ public class UserEndpoint {
     }
 
     // Get all bookings for a user
-    public List<Booking> getBookingsForUser(String userId) {
+    public List<Booking> getBookingsByUser(String userId) {
         return userRepository.findBookingsByUserId(userId);
     }
 
