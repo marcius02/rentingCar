@@ -34,34 +34,6 @@ public class UserRepositoryImpl implements UserRepository {
         table.putItem(item);
     }
 
-   /* @Override
-    public List<Booking> findBookingsByUserId(String userId) {
-        // This client creates a reference to our DynamoDB table
-        // telling the SDK to map table items to your Booking Java class
-        // it uses the value of enhancedClient
-        DynamoDbTable<Booking> table = enhancedClient.table(tableName, TableSchema.fromBean(Booking.class));
-        // Assuming ''Booking'' has a partition key named "userId"
-        // empty list where you will collect all the bookings found for the user.
-        List<Booking> bookings = new ArrayList<>();
-
-        // QueryConditional.keyEqualTo(...): Tells DynamoDB to return all items
-        // where the partition key (here, userId) equals the value you provided.
-        Iterator<Booking> results = table.query(
-                r -> r.queryConditional(
-                        QueryConditional.keyEqualTo(
-                                k -> k.partitionValue(userId)
-                        )
-                )
-        ).items().iterator();
-        // .items().iterator(): Gets an iterator over the query results.
-        // with method reference.
-        // Each item is mapped to a Booking object.
-
-        // Loop over the query results and add them to the 'bookings' list
-        results.forEachRemaining(bookings::add);
-        return bookings;
-    }*/
-
     @Override
     public List<Booking> findBookingsByUserId(String userId) {
         // This client creates a reference to our DynamoDB table

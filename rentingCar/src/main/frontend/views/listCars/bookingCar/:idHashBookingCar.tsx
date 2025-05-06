@@ -22,6 +22,8 @@ export default function BookingCar() {
   const [loading, setLoading] = useState(true);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [totalToPayment, setTotalToPayment] = useState<number | null>(null);
+  const [sameDelegation, setSameDelegation] = useState(false);
+
   const [formData, setFormData] = useState({
     startDate: '',
     endDate: '',
@@ -43,6 +45,16 @@ export default function BookingCar() {
     loadDelegations();
   }, []);
 
+  // Keep deliverDelegationId in sync if sameDelegation is checked
+  useEffect(() => {
+    if (sameDelegation) {
+      setFormData(prev => ({
+        ...prev,
+        deliverDelegationId: prev.pickupDelegationId
+      }));
+    }
+  }, [sameDelegation, formData.pickupDelegationId]);
+
   const calculateTotalPayment = (startDate: string, endDate: string, price: number) => {
     if (!startDate || !endDate || !price) return 0;
     const start = new Date(startDate);
@@ -63,7 +75,7 @@ export default function BookingCar() {
       alert('Car data is missing.');
       return;
     }
-    if (!formData.pickupDelegationId || !formData.deliverDelegationId) {
+    if (!formData.pickupDelegationId || (!sameDelegation && !formData.deliverDelegationId)) {
       alert('Please select pickup and delivery delegations');
       return;
     }
@@ -127,38 +139,58 @@ export default function BookingCar() {
           label="Start Date"
           required
           min={new Date().toISOString().split('T')[0]}
-          onValueChanged={(e) => setFormData({...formData, startDate: e.detail.value})}
-        /> {" "}
+          onValueChanged={(e) => setFormData({ ...formData, startDate: e.detail.value })}
+        />{" "}
         <DatePicker
           label="End Date"
           required
           min={formData.startDate}
-          onValueChanged={(e) => setFormData({...formData, endDate: e.detail.value})}
+          onValueChanged={(e) => setFormData({ ...formData, endDate: e.detail.value })}
         />
-        </div>
-        <div className="space-y-m">
+      </div>
+      <div className="mt-xl flex items-center gap-m">
+        <input
+          type="checkbox"
+          id="sameDelegation"
+          checked={sameDelegation}
+          onChange={(e) => setSameDelegation(e.target.checked)}
+        />
+        <label htmlFor="sameDelegation">Same location for pickup and return</label>
+      </div>
+      <div className="mt-xl">
         <Select
           label="Pickup Location"
           value={formData.pickupDelegationId}
           items={delegations.map(d => ({ label: d.name, value: d }))}
-          onValueChanged={e => setFormData({ ...formData, pickupDelegationId: e.detail.value })}
-        /> {" "}
-        <Select
-          label="Return Location"
-          value={formData.deliverDelegationId}
-          items={delegations.map(d => ({ label: d.name, value: d }))}
-          onValueChanged={e => setFormData({ ...formData, deliverDelegationId: e.detail.value })}
+          onValueChanged={e => {
+            const pickup = e.detail.value;
+            setFormData(prev => ({
+              ...prev,
+              pickupDelegationId: pickup,
+              deliverDelegationId: sameDelegation ? pickup : prev.deliverDelegationId
+            }));
+          }}
         />
-        {formData.startDate && formData.endDate && car?.price &&
-          <div className="mt-m font-bold">
-            Total to Pay: {calculateTotalPayment(formData.startDate, formData.endDate, car.price)} €
-          </div>
-        }
+      </div>
+      {!sameDelegation && (
         <div className="mt-xl">
-          <Button theme="primary" onClick={handleSubmit}>
-            Confirm Booking
-          </Button>
+          <Select
+            label="Return Location"
+            value={formData.deliverDelegationId}
+            items={delegations.map(d => ({ label: d.name, value: d }))}
+            onValueChanged={e => setFormData({ ...formData, deliverDelegationId: e.detail.value })}
+          />
         </div>
+      )}
+      {formData.startDate && formData.endDate && car?.price &&
+        <div className="mt-m font-bold">
+          Total to Pay: {calculateTotalPayment(formData.startDate, formData.endDate, car.price)} €
+        </div>
+      }
+      <div className="mt-xl">
+        <Button theme="primary" onClick={handleSubmit}>
+          Confirm Booking
+        </Button>
       </div>
     </div>
   );
