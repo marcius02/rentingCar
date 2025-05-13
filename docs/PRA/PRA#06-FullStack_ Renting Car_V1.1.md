@@ -56,6 +56,39 @@ Admins:
 - [React Router DOM](https://reactrouter.com/) - Routing for React application
 - Jest for testing
 
+## Data Model
+
+- [rentingCar_nosql - Hojas de cálculo de Google](https://docs.google.com/spreadsheets/d/1jCKONiQ8_KUPSXzlYQ5GwEaLhJo2aV9jCOtgarWg3Tc/edit?usp=sharing)
+
+**Table 1: Inventory and Availability**  
+
+- **Purpose**: Stores delegations, cars, and car availability.  
+- **Partition Key**: `delegationId` (e.g., `DELEG#001`) or `carId` (e.g., `car#2023#006`).  
+- **Sort Key**: `operation` (e.g., `profile`, `calendar`).  
+- **Entities/Beans**:  
+  - **Delegation**: `DELEG#<ID>` + `profile` (e.g., address, city, availableCarQty).  
+  - **Car**: `car#<year>#<ID>` (e.g., color, make, model, price).  
+  - **Calendar**: `car#<year>#<ID>` + `<calendarType>#calendar` (e.g., date availability flags).  
+- **Access Patterns**: Query delegations by ID, cars by ID/model, availability by date.  
+- **Notes**: Single-table design, scalable with potential GSIs on `city` or `model`.
+
+**Table 2: Users and Bookings**  
+
+- **Purpose**: Manages user profiles and bookings.  
+- **Partition Key**: `userId` (e.g., `USER#001`).  
+- **Sort Key**: `operation` (e.g., `profile`, `booking#<year>#<ID>`).  
+- **Entities/Beans**:  
+  - **User**: `USER#<ID>` + `profile` (e.g., email, fullName).  
+  - **Booking**: `USER#<ID>` + `booking#<year>#<ID>` (e.g., car, delegation, dates, status).  
+- **Access Patterns**: Query user profiles by ID, bookings by user/date/status.  
+- **Notes**: Embeds car/delegation data in bookings for fast reads, scalable with potential GSIs on `email` or `statusBooking`.
+
+**Core Design**:  
+
+- Both tables use single-table DynamoDB with hierarchical keys for flexibility.  
+- Table 1 organizes inventory; Table 2 handles user transactions.  
+- Scalable, but could improve with GSIs, normalized calendars, and lighter booking data.
+
 ## Tasks
 
 ### Mandatory Tasks for Students
