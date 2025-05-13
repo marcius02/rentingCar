@@ -2,7 +2,15 @@
 
 ## CIFO La Violeta - FullStack IFCD0210-25 MF03
 
-> This guide outlines how to create a full-stack Renting Car Application using Spring Boot for the backend and React (via Hilla) for the frontend.
+> This guide outlines how to create a full-stack Renting Car Application using Spring Boot for the backend and React (via Hilla TSX) for the frontend.
+
+Refrence labs:
+
+- [Renting Car project](https://github.com/AlbertProfe/rentingCar): Sprint Boot Vaadin Hilla
+- [mathsWeb](https://github.com/AlbertProfe/mathsWeb): React theming
+- [easyLearning](https://github.com/AlbertProfe/easyLearning): Sprint Boot Vaadin Hilla Java Auth
+- [authReactCognito](https://github.com/AlbertProfe/authReactCognito): React TS Cognito AWS auth
+- [authReactCognito](https://github.com/AlbertProfe/authReactCognito): React JS Cognito AWS auth
 
 ## Project Overview
 
@@ -33,26 +41,32 @@ Admins:
 - [Spring Boot](https://spring.io/projects/spring-boot) - Java-based framework
 - [Hilla](https://hilla.dev/) - Framework for integrating Spring Boot with React
 - [Spring Data DynamoDB](https://github.com/derjust/spring-data-dynamodb) - Data persistence for DynamoDB
-- [Lombok](https://projectlombok.org/) - Reduce boilerplate code
+- [Lombok](https://projectlombok.org/) - Reduce boilerplate code (optional)
 - [DynamoDB](https://aws.amazon.com/dynamodb/) - NoSQL database with two single-table designs
-- **Bash** and [AWS CLI]([AWS CLI](https://aws.amazon.com/cli/)) to populate the DynamoDB.
+- **Bash/Python** and [AWS CLI]([AWS CLI](https://aws.amazon.com/cli/)) to populate the DynamoDB.
+- JUnit for testing
+- Cognito AWS for auth.
 
 ### Frontend
 
 - [React](https://reactjs.org/) - JavaScript library for building user interfaces (via Hilla)
+- Hilla React, typing variables with **Typescript**
 - [Axios](https://axios-http.com/) - HTTP client for API requests (optional to **populate**)
 - [Material UI](https://mui.com/) - React component library
 - [React Router DOM](https://reactrouter.com/) - Routing for React application
+- Jest for testing
 
 ## Tasks
 
 ### Mandatory Tasks for Students
 
-1. **Design and Implement Rent a Car Feature**: Create a feature allowing users to rent a car using a calendar interface to select dates and view available cars. Ensure integration with the backend to check availability and confirm bookings.
+1. **Design and Implement Rent a Car Feature**: Create a feature allowing users to rent a car using a<mark> calendar interface</mark> to select dates (for a particular(s) delegation) and view available cars. Ensure integration with the backend to check availability and confirm bookings.
    1. From version 1.0, commit <mark>9e88199</mark>
-      1. v1.1: data model for avalaible cars
-      2. v1.2: make a booking for a car/dates/delegation
-      3. v1.3: update avaliable cars
+      1. v1.1.1: data model for avalaible cars
+      2. v1.1.2: admin create availabilty car calendar by car
+      3. v1.1.3: user select dates/delegation and query available cars by dates/delegation
+      4. v1.2: make a booking for a car/dates/delegation
+      5. v1.3: update avaliable cars
 2. **Create five different data models for representing available cars**. For each model, briefly explain its advantages and disadvantages. Then, choose the best option for your needs and justify your choice in a short paragraph. Keep your response around 50 words.
 3. **List of Bookings and Admin Dashboard**: Implement a booking list view for users and a dashboard for admins to monitor bookings, view statistics, and manage the car fleet.
 4. **User Configuration Domain**: Develop a user profile management system, allowing users to update personal information, view booking history, and manage preferences.
@@ -64,10 +78,70 @@ Admins:
 3. **AWS Cognito Authentication**: Integrate AWS Cognito for user authentication and authorization.
 4. **Map with Tracking or Position of Cars and Delegations**: Utilize the Leaflet library to display interactive maps showing car locations and rental agency branches, with optional real-time tracking.
 5. **Deploy with Docker, AWS ECS, and GitHub Actions**. To deploy with Docker, AWS ECS, and GitHub Actions:
-   1.  first containerize your application by creating a Dockerfile. Build and tag your Docker image, then push it to Amazon ECR (Elastic Container Registry). 
+   1. first containerize your application by creating a Dockerfile. Build and tag your Docker image, then push it to Amazon ECR (Elastic Container Registry). 
    2. Next, create an ECS cluster and define a task specifying how your container should run (CPU, memory, networking). Deploy your application to ECS, using either EC2 or Fargate. 
    3. Automate this workflow with GitHub Actions: set up a workflow to build your Docker image, push to ECR, and deploy to ECS on every push to your main branch. 
    4. Use official AWS GitHub Actions to streamline authentication and deploymen
+
+### Extra tasks (just for champions)
+
+**1. Testing Implementation**  
+
+Backend: Use JUnit with Spring Boot's `@SpringBootTest` for integration testing, validating repository interactions and controller responses. Frontend: Configure Jest with React Testing Library for component testing, using `render` and `screen` utilities to verify UI behavior
+
+**2. AWS S3 File Storage**  
+
+Implement signed URLs for secure file uploads/downloads directly from React. Apply S3 best practices:
+
+- Use **Intelligent-Tiering** for cost optimization
+
+- Enable **Lifecycle Policies** for automatic archival[3](https://awsforengineers.com/blog/aws-s3-storage-optimization-12-best-practices/)
+
+- Set bucket policies with least-privilege access
+
+**3. Stripe Payment Integration**  
+Utilize React Stripe.js with Elements provider:
+
+```jsx
+<Elements stripe={stripePromise} options={{appearance}}> 
+  <PaymentElement />
+</Elements>
+
+```
+
+Handle payment confirmation server-side using Stripe webhooks and `clientSecret` validation.
+
+**4. Architecture Documentation**  
+
+Create <mark>Quarto</mark> documentation with:
+
+- Mermaid.js diagrams for system architecture
+
+- Interactive component demos using React Live
+
+- Automated API reference generation via Javadoc/TypeDoc[7](https://quarto.org/)
+
+### Super-extra tasks (just for super-champions)
+
+**Real-time Updates with DynamoDB**  
+
+Configure TTL attribute with streams:
+
+```json
+{ 
+  "Filters": [{
+    "Pattern": { 
+      "userIdentity": {
+        "type": ["Service"],
+        "principalId": ["dynamodb.amazonaws.com"] 
+      }
+    }
+  }]
+}
+
+```
+
+Use Lambda to process expiration events and push updates via WebSocket API.
 
 ### Backend Tasks
 
@@ -87,7 +161,7 @@ Admins:
 
 ## Backend Skeleton Implementation
 
-<mark>Just for consultm this is NOT usable code</mark>
+<mark>Just for consultation; these are NOT usable classes, components, code</mark>
 
 ### Java Beans Classes
 
@@ -1412,4 +1486,3 @@ server.port=8080
 - [Renting Car Project](https://github.com/AlbertProfe/rentingCar)
 - [Theme Injection Reference](https://github.com/AlbertProfe/mathsWeb)
 - [Authentication Reference](https://github.com/AlbertProfe/easyLearning)
-- 
