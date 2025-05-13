@@ -88,6 +88,7 @@ Admins:
 - Both tables use single-table DynamoDB with hierarchical keys for flexibility.  
 - Table 1 organizes inventory; Table 2 handles user transactions.  
 - Scalable, but could improve with GSIs, normalized calendars, and lighter booking data.
+- TTL: Automatically delete expired items from a table, define TTL for a item/field <mark>epoch seconds</mark> for future date you want to expire.
 
 ## Tasks
 
@@ -95,11 +96,13 @@ Admins:
 
 1. **Design and Implement Rent a Car Feature**: Create a feature allowing users to rent a car using a<mark> calendar interface</mark> to select dates (for a particular(s) delegation) and view available cars. Ensure integration with the backend to check availability and confirm bookings.
    1. From version 1.0, commit <mark>9e88199</mark>
-      1. v1.1.1: data model for avalaible cars
-      2. v1.1.2: admin create availabilty car calendar by car
-      3. v1.1.3: user select dates/delegation and query available cars by dates/delegation
-      4. v1.2: make a booking for a car/dates/delegation
-      5. v1.3: update avaliable cars
+      1. v1.1.1: `listCars`, original commit
+      2. v1.1.1: data model for avalaible cars
+      3. v1.1.2: admin create availabilty car calendar by car:
+         1.  `createAvailabiltyCalenderByCar`
+      4. v1.1.3: user select dates/delegation and query available cars by dates/delegation
+      5. v1.2: make a booking for a car/dates/delegation
+      6. v1.3: update avaliable cars
 2. **Create five different data models for representing available cars**. For each model, briefly explain its advantages and disadvantages. Then, choose the best option for your needs and justify your choice in a short paragraph. Keep your response around 50 words.
 3. **List of Bookings and Admin Dashboard**: Implement a booking list view for users and a dashboard for admins to monitor bookings, view statistics, and manage the car fleet.
 4. **User Configuration Domain**: Develop a user profile management system, allowing users to update personal information, view booking history, and manage preferences.
