@@ -14,7 +14,7 @@ Refrence labs:
 
 ## Project Overview
 
-- Create a `Spring Boot` and `React` (Hilla) project from scratch or <mark>gh repo clone AlbertProfe/rentingCar</mark> at [commit 9e88199]([rentingCar/rentingCar at 9e8819912e23b90cdc3c66d26dc14fb5bc3dce99 · AlbertProfe/rentingCar · GitHub](https://github.com/AlbertProfe/rentingCar/tree/9e8819912e23b90cdc3c66d26dc14fb5bc3dce99/rentingCar))
+- Create a `Spring Boot` and `React` (Hilla) project from scratch or <mark>gh repo clone AlbertProfe/rentingCar</mark> at [commit 9e88199](https://github.com/AlbertProfe/rentingCar/tree/9e8819912e23b90cdc3c66d26dc14fb5bc3dce99/rentingCar)
 - Do <mark>NOT</mark> Implement a `RESTful API`, it is not necessary.
 - Use `DynamoDB` with two single tables for data storage:
   - Users/Bookings
@@ -43,7 +43,7 @@ Admins:
 - [Spring Data DynamoDB](https://github.com/derjust/spring-data-dynamodb) - Data persistence for DynamoDB
 - [Lombok](https://projectlombok.org/) - Reduce boilerplate code (optional)
 - [DynamoDB](https://aws.amazon.com/dynamodb/) - NoSQL database with two single-table designs
-- **Bash/Python** and [AWS CLI]([AWS CLI](https://aws.amazon.com/cli/)) to populate the DynamoDB.
+- **Bash/Python** and [AWS CLI](https://aws.amazon.com/cli/) to populate the DynamoDB.
 - JUnit for testing
 - Cognito AWS for auth.
 
@@ -75,7 +75,7 @@ Admins:
 
 1. **CSS Theme Injection**: Implement dynamic theme injection for the frontend using techniques outlined in [mathsWeb](https://github.com/AlbertProfe/mathsWeb).
 2. **Java-Based Authentication**: Add JWT-based authentication using Spring Security, as demonstrated in [easyLearning](https://github.com/AlbertProfe/easyLearning).
-3. **AWS Cognito Authentication**: Integrate AWS Cognito for user authentication and authorization.
+3. **AWS Cognito Authentication**: Integrate AWS Cognito for user authentication and authorization [authReactCognito](https://github.com/AlbertProfe/authReactCognito): React TS Cognito AWS auth.
 4. **Map with Tracking or Position of Cars and Delegations**: Utilize the Leaflet library to display interactive maps showing car locations and rental agency branches, with optional real-time tracking.
 5. **Deploy with Docker, AWS ECS, and GitHub Actions**. To deploy with Docker, AWS ECS, and GitHub Actions:
    1. first containerize your application by creating a Dockerfile. Build and tag your Docker image, then push it to Amazon ECR (Elastic Container Registry). 
@@ -95,18 +95,18 @@ Implement signed URLs for secure file uploads/downloads directly from React. App
 
 - Use **Intelligent-Tiering** for cost optimization
 
-- Enable **Lifecycle Policies** for automatic archival[3](https://awsforengineers.com/blog/aws-s3-storage-optimization-12-best-practices/)
+- Enable **Lifecycle Policies** for automatic archival
 
 - Set bucket policies with least-privilege access
 
 **3. Stripe Payment Integration**  
+
 Utilize React Stripe.js with Elements provider:
 
 ```jsx
 <Elements stripe={stripePromise} options={{appearance}}> 
   <PaymentElement />
 </Elements>
-
 ```
 
 Handle payment confirmation server-side using Stripe webhooks and `clientSecret` validation.
@@ -119,7 +119,7 @@ Create <mark>Quarto</mark> documentation with:
 
 - Interactive component demos using React Live
 
-- Automated API reference generation via Javadoc/TypeDoc[7](https://quarto.org/)
+- Automated API reference generation via Javadoc/TypeDoc
 
 ### Super-extra tasks (just for super-champions)
 
@@ -138,7 +138,6 @@ Configure TTL attribute with streams:
     }
   }]
 }
-
 ```
 
 Use Lambda to process expiration events and push updates via WebSocket API.
