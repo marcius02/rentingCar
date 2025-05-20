@@ -1,4 +1,8 @@
-# AWS Cognito Hosted UI with Authentication Flows
+# AWS Cognito Hosted UI
+
+## Intro & Links
+
+- [GitHub - AlbertProfe/authReactCognitoHosted](https://github.com/AlbertProfe/authReactCognitoHosted)
 
 > AWS Cognito Hosted UI provides a pre-built, customizable user interface for handling authentication processes like sign-in, sign-up, and sign-out, integrated with Amazon Cognito User Pools. 
 > 
