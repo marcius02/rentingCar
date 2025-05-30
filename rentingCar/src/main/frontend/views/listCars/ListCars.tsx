@@ -4,6 +4,7 @@ import { DelegationEndpoint } from 'Frontend/generated/endpoints';
 import Car from 'Frontend/generated/dev/renting/delegations/Car';
 import { Button } from '@vaadin/react-components/Button';
 import { useNavigate } from 'react-router-dom';
+import SHA256 from 'crypto-js/sha256';
 //import { useNavigate } from '@vaadin/hilla-file-router/react';
 
 
@@ -56,15 +57,9 @@ export default function ListCars() {
     model: string;
     userId: string;
   }): Promise<string> {
-    const encoder = new TextEncoder();
     const dateString = new Date().toISOString().split('T')[0];
     const stringToHash = `${data.make}-${data.model}-${dateString}-${data.userId}`;
-    const hashBuffer = await crypto.subtle.digest(
-      'SHA-256',
-      encoder.encode(stringToHash)
-    );
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return SHA256(stringToHash).toString();
   }
 
   function isCarWithMakeAndModel(car: Car): car is Car & { make: string; model: string } {
